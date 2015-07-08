@@ -28,19 +28,6 @@
   DRV DIR ->  Uno pin 11
 */
 
-/* The UI */
-void blink(int times)
-{
-  const int LEDPIN = 13;
-  for (int i = 0; i < times; i++)
-  {
-    digitalWrite(LEDPIN, HIGH);
-    delay(250);
-    digitalWrite(LEDPIN, LOW);
-    delay(750);
-  }
-}
-
 const int BRD = 1; // pin definitions
 const int PINSTEP = 12;
 const int PINDIR = 11;
@@ -78,8 +65,6 @@ AccelStepper stepper(BRD, PINSTEP, PINDIR);
 
 void setup()
 {
-  blink(4);
-  
   /* Set parameters */
   stepper.setMaxSpeed(SPEED); // setup motor
   stepper.setAcceleration(ACCEL);
