@@ -15,7 +15,7 @@
 // moddate 5/28/2014, 6/19/2014, 3/24/2015
 
 /* Circuit
-  Motor Driver
+  Pololu DRV8834 Motor Driver carrier
   DRV VMOT -> +7V motor power supply
   DRV GND -> 0V motor power supply
   DRV B1 -> red, motor
@@ -46,15 +46,18 @@ const int ACCEL = 500;
   RLY GND -> Relay power supply Gnd, Uno Gnd
 */
 
-const int PINREL1 = 6;
+const int PINREL1 = 6; // pin definitions
 const int PINREL2 = 7;
+const int OPENTIME = 750; // relay open time in msec
+const int IRRADTIME = 23500;
 
 /*
   Acquire trigger
   MyDaq DIO 0 -> Uno pin 8
+  MYDaq DIO Gnd -> Uno Gnd 
 */
 
-const int PINTRG = 8;
+const int PINTRG = 8; // pin definition
 
 #include <AccelStepper.h>
 
@@ -80,17 +83,17 @@ void setup()
   stepper.enableOutputs();
   stepper.runToNewPosition(LOAD); // start at loading position
   stepper.disableOutputs();
-  delay(1000);
+  delay(500);
   stepper.enableOutputs();
   stepper.runToNewPosition(REACTOR); // move stage to reactor tube
   stepper.disableOutputs();
   digitalWrite(PINREL1, LOW); // fire relay 1, sample to reactor
-  delay(750);
+  delay(OPENTIME);
   digitalWrite(PINREL1, HIGH); // close relay 1
-  delay(23250);
+  delay(IRRADTIME);
   digitalWrite(PINREL2, LOW); // fire relay 2, sample to detector
   digitalWrite(PINTRG, HIGH); // trigger acquisition
-  delay(750);
+  delay(OPENTIME);
   digitalWrite(PINREL2, HIGH); // close relay 2
   stepper.enableOutputs();
   stepper.runToNewPosition(LOAD); // move stage back to loading position
